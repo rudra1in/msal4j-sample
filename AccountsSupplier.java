@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.microsoft.aad.msal4j;
+
+import java.net.URL;
+import java.util.Set;
+import java.util.concurrent.CompletionException;
+import java.util.function.Supplier;
+
+class AccountsSupplier implements Supplier<Set<IAccount>> {
+
+    ClientApplicationBase clientApplication;
+    MsalRequest msalRequest;
+
+    AccountsSupplier(ClientApplicationBase clientApplication, MsalRequest msalRequest) {
+
+        this.clientApplication = clientApplication;
+        this.msalRequest = msalRequest;
+    }
+
+    @Override
+    public Set<IAccount> get() {
+        try {
+            InstanceDiscoveryMetadataEntry instanceDiscoveryData =
+                    AadInstanceDiscovery.GetMetadataEntry
+                            (new URL(clientApplication.authority()),
+                                    clientApplication.validateAuthority(),
+                                    msalRequest,
+                                    clientApplication.getServiceBundle());
+
+            return clientApplication.tokenCache.getAccounts
+                    (clientApplication.clientId(), instanceDiscoveryData.aliases);
+
+        } catch (Exception ex) {
+            clientApplication.log.error(
+                    LogHelper.createMessage("Execution of " + this.getClass() + " failed.",
+                            msalRequest.headers().getHeaderCorrelationIdValue()), ex);
+
+            throw new CompletionException(ex);
+        }
+    }
+}

@@ -1,0 +1,36 @@
+Version 0.6.0-preview
+=============
+- Updated TokenCache to be thread safe
+- Removed build warnings
+- Added web app, B2C, and OBO samples
+- Updated to use delomboked sources
+
+Version 0.5.0-preview
+=============
+- Refactored AuthenticationException to MsalServiceException, MsalClientException, MsalInteractionRequiredException
+- Added cache lookup to acquireToken by client credentials grant
+- Updated Javadoc reference
+- Updated license headers
+
+Version 0.4.0-preview
+=============
+- Exposed acquire token by refresh token api
+
+Version 0.3.0-preview
+=============
+- Added support for FOCI
+- Updated public API to return interfaces
+- Updated cache to be compatible with MSAL Python and MSAL.NET caches
+
+Version 0.2.0-preview
+=============
+- Added support for B2C
+
+Version 0.1.0-preview
+=============
+Public preview of Microsoft Authentication Library for Java
+- Feature parity with ADAL Java
+- Updated public API to use builder pattern
+- Added telemetry callback
+- Added support for caching tokens
+- Added acquire token with silent parameters API
